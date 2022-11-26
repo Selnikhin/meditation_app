@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../model.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Meditation_screen extends StatefulWidget {
+  const Meditation_screen({super.key});
+
   @override
   State<Meditation_screen> createState() => _Meditation_screenState();
 }
@@ -46,37 +49,62 @@ class _Meditation_screenState extends State<Meditation_screen> {
   final AudioPlayer audioPlayer = AudioPlayer();
   int? playingIndex;
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(items[index].imagePath),
+        child: Center(
+          child: Container(
+            width: 500,
+
+            child: ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage(items[index].imagePath),
+                        ),
+                      ),
+                      height: 150,
+                      child: ListTile(
+                        title: Text(
+                          items[index].name,
+                          style: TextStyle(
+                            fontSize: 23,
+                          ),
+                        ),
+                        leading: IconButton(
+                          icon: playingIndex == index
+                              ? FaIcon(FontAwesomeIcons.stop)
+                              : FaIcon(FontAwesomeIcons.play),
+                          onPressed: () {
+                            if (playingIndex == index) {
+                              setState(() {
+                                playingIndex = null;
+                              });
+                              audioPlayer.stop();
+                            } else {
+                              audioPlayer.setAsset(items[index].audioPath);
+                              audioPlayer.play();
+                              setState(() {
+                                playingIndex == index;
+                              });
+                            }
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-                  height: 100,
-                  child: ListTile(
-                    title: Text(items[index].name,style: TextStyle(fontSize: 23,),),
-                    leading: IconButton(
-                      icon: const Icon(Icons.play_arrow,size: 35,),
-                      onPressed: () {
-                        audioPlayer.setAsset(items[index].audioPath);
-                        audioPlayer.play();
-                      },
-                    ),
-                  ),
-                ),
-              );
-            }),
+                  );
+                }),
+          ),
+        ),
       ),
     );
   }
