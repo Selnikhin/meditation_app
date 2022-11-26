@@ -49,8 +49,6 @@ class _Meditation_screenState extends State<Meditation_screen> {
   final AudioPlayer audioPlayer = AudioPlayer();
   int? playingIndex;
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +56,6 @@ class _Meditation_screenState extends State<Meditation_screen> {
         child: Center(
           child: Container(
             width: 500,
-
             child: ListView.builder(
                 itemCount: items.length,
                 itemBuilder: (context, index) {
@@ -84,18 +81,31 @@ class _Meditation_screenState extends State<Meditation_screen> {
                           icon: playingIndex == index
                               ? FaIcon(FontAwesomeIcons.stop)
                               : FaIcon(FontAwesomeIcons.play),
-                          onPressed: () {
+                          onPressed: ()async {
                             if (playingIndex == index) {
                               setState(() {
                                 playingIndex = null;
                               });
                               audioPlayer.stop();
                             } else {
-                              audioPlayer.setAsset(items[index].audioPath);
-                              audioPlayer.play();
-                              setState(() {
-                                playingIndex == index;
-                              });
+                              try {
+                                 await audioPlayer
+                                    .setAsset(items[index].audioPath)
+                                    .catchError((onError) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.deepOrange.withOpacity(1.0),
+                                      content: Text('Oops'),
+                                    ),
+                                  );
+                                });
+                                audioPlayer.play();
+                                setState(() {
+                                  playingIndex == index;
+                                });
+                              } catch (error) {
+                                print(error);
+                              }
                             }
                           },
                         ),
