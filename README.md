@@ -1,16 +1,5 @@
 # meditation_app
 
-A new Flutter project.
+Создание приложения для мидитации с возможностью воспроизведения музыки. 
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Снимок экрана 2023-03-18 в 19 12 51](https://user-images.githubusercontent.com/91333676/226118613-835e20dc-85dd-445b-9ebf-71d73c341115.png)
